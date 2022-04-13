@@ -137,9 +137,13 @@ function createTextAreaRow(item: Item) {
   return `
     <tr>
       <th>
+        ${item.label}
       </th>
       <td>
-        <textarea></textarea>
+        <textarea
+          name=${item.name}
+          placeholder=${item.placeholder}
+        ></textarea>
       </td>
     </tr>
   `;
