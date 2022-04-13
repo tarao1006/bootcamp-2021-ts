@@ -1,16 +1,47 @@
-type Item = {
+type InputItem = {
   name: string;
-  tagName: string;
-  type?: string;
+  tagName: "input";
+  type: "text" | "tel" | "email";
   label: string;
-  placeholder?: string;
-  values?: { label: string; value: number }[];
-  options?: { text: string; value: number }[];
+  placeholder: string;
 };
 
-type InputItem = Item & {
-  type: string
+type RadioItem = {
+  name: string;
+  tagName: "input";
+  type: "radio";
+  label: string;
+  values: { label: string; value: number }[];
+};
+
+type CheckboxItem = {
+  name: string;
+  tagName: string;
+  type: "checkbox";
+  label: string;
+  values: { label: string; value: number }[];
+};
+
+type SelectItem = {
+  name: string;
+  tagName: "select";
+  label: string;
+  options: { text: string; value: number }[];
+};
+
+type TextareaItem = {
+  name: string;
+  tagName: "textarea";
+  label: string;
+  placeholder: string;
 }
+
+type Item =
+  | InputItem
+  | RadioItem
+  | CheckboxItem
+  | SelectItem
+  | TextareaItem
 
 const items: Item[] = [
   {
@@ -84,7 +115,7 @@ const items: Item[] = [
 // _____________________________________________________________________________
 //
 
-function createInputRow(item: InputItem) {
+function createInputRow(item: InputItem | RadioItem | CheckboxItem) {
   let input: string;
   switch (item.type) {
     case "text":
@@ -94,7 +125,7 @@ function createInputRow(item: InputItem) {
       break
     case "radio":
     case "checkbox":
-        input = item.values?.map(value => {
+        input = item.values.map(value => {
           return `<input type=${item.type} value=${value.value} name=${item.name}><label>${value.label}</label>`
       }).join("") as string;
       break
@@ -114,8 +145,8 @@ function createInputRow(item: InputItem) {
   `;
 }
 
-function createSelectRow(item: Item) {
-  const options = item.options?.map(value => {
+function createSelectRow(item: SelectItem) {
+  const options = item.options.map(value => {
     return `<option value=${value.value}>${value.text}</option>`
   }).join("");
 
@@ -133,7 +164,7 @@ function createSelectRow(item: Item) {
   `;
 }
 
-function createTextAreaRow(item: Item) {
+function createTextAreaRow(item: TextareaItem) {
   return `
     <tr>
       <th>
@@ -156,9 +187,9 @@ function createTable() {
         case "input":
           return createInputRow(item as InputItem);
         case "select":
-          return createSelectRow(item);
+          return createSelectRow(item as SelectItem);
         case "textarea":
-          return createTextAreaRow(item);
+          return createTextAreaRow(item as TextareaItem);
       }
     })
     .join("");
