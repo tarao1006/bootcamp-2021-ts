@@ -115,12 +115,18 @@ function createInputRow(item: InputItem) {
 }
 
 function createSelectRow(item: Item) {
+  const options = item.options?.map(value => {
+    return `<option value=${value.value}>${value.text}</option>`
+  }).join("");
+
   return `
     <tr>
       <th>
+       ${item.label}
       </th>
       <td>
-        <select>
+        <select name=${item.name}>
+          ${options}
         </select>
       </td>
     </tr>
