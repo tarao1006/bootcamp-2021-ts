@@ -90,12 +90,12 @@ function createInputRow(item: InputItem) {
     case "text":
     case "email":
     case "tel":
-      input = `<input type="${item.type}" placeholder=${item.placeholder} name=${item.name}>`
+      input = `<input type=${item.type} placeholder=${item.placeholder} name=${item.name}>`
       break
     case "radio":
     case "checkbox":
         input = item.values?.map(value => {
-          return `<input type="${item.type}" value=${value.value} name=${item.name}><label>${value.label}</label>`
+          return `<input type=${item.type} value=${value.value} name=${item.name}><label>${value.label}</label>`
       }).join("") as string;
       break
     default:
